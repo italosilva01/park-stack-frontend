@@ -12,7 +12,7 @@ export default function RegisterAttraction() {
       initialValues={{name:'',status:false,description:'',duration:''}}
       onSubmit={e =>console.log(e)}
     >
-      {({ handleChange, handleBlur, handleSubmit, values })=>(
+      {({ handleChange, handleBlur, handleSubmit, values,setFieldValue })=>(
         <View style={style.container}>
         <View style={style.containerNameStatus}>
         <TextInput placeholder="Nome da atração" onChangeText={handleChange('name')} onBlur={handleBlur('name')} value={values.name} />
@@ -25,7 +25,7 @@ export default function RegisterAttraction() {
           onValueChange={toggleSwitch}
           value={values.status}
           accessibilityLabel="Status"
-          onChange={handleChange('status')}
+          onChange={()=>setFieldValue("status",!values.status)}
           
         />
         </View>
