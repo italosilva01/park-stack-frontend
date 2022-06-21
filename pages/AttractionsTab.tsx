@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, View, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import RegisterAttraction from "../pages/RegisterAttraction";
 
 const AttractionStack = createNativeStackNavigator();
 
@@ -13,7 +12,7 @@ function AttractionsList() {
   );
 }
 
-export default function Attractions({ navigation }) {
+export default function AttractionsTab({ navigation }) {
   return (
     <AttractionStack.Navigator initialRouteName="AttractionsList">
       <AttractionStack.Screen 
@@ -31,11 +30,6 @@ export default function Attractions({ navigation }) {
           ), 
         }}
         />
-      <AttractionStack.Screen
-        name="CreateAttraction" 
-        component={RegisterAttraction}
-        options={{ title: 'Cadastrar Atração' }}
-      />
     </AttractionStack.Navigator>
   )
 }

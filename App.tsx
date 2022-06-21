@@ -1,14 +1,11 @@
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { NavigationContainer } from '@react-navigation/native';
-import Tabs from './navigation/Tabs';
+import MainContainer from './navigation/MainContainer';
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Tabs />
-      </NavigationContainer>
+      <MainContainer />
     </SafeAreaProvider>
   );
 }

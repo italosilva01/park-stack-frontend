@@ -1,8 +1,8 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Attractions from '../pages/Attractions';
-import Queue from '../pages/Queue';
+import AttractionsTab from '../pages/AttractionsTab';
+import QueueTab from '../pages/QueueTab';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -10,8 +10,8 @@ export default function Tabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Attractions" 
-        component={Attractions}
+        name="AttractionsTab"
+        component={AttractionsTab}
         options={{
           tabBarLabel: 'Atrações',
           tabBarIcon: ({ color }) => (
@@ -20,8 +20,8 @@ export default function Tabs() {
         }}
       />
       <Tab.Screen 
-        name="Queue" 
-        component={Queue} 
+        name="QueueTab"
+        component={QueueTab} 
         options={{
           tabBarLabel: 'Fila',
           tabBarIcon: ({ color }) => (
