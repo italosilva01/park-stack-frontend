@@ -1,5 +1,3 @@
-import axios from "axios";
 
-export const baseUrl = "localhist";
+export const baseUrl = "http://localhost:3000/";
 
-axios({method:'get',url:`${baseUrl}/api/arr`})

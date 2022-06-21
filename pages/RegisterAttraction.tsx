@@ -1,16 +1,30 @@
 import React, { useState } from "react";
 import { View, TextInput, Switch, StyleSheet,Text, Button, } from "react-native";
 import {Formik} from 'formik';
+import axios from "axios";
+import { baseUrl } from "../constants";
 
 export default function RegisterAttraction() {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
+  const createAttraction = async(e:any)=>{
+
+    try {
+      const response = await axios.post(`${baseUrl}atracao`,{...e})
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+
+  }
+
+
   return (
 
     <Formik
       initialValues={{name:'',status:false,description:'',duration:''}}
-      onSubmit={e =>console.log(e)}
+      onSubmit={e =>createAttraction(e)}
     >
       {({ handleChange, handleBlur, handleSubmit, values,setFieldValue })=>(
         <View style={style.container}>
@@ -56,6 +70,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     border:'1px solid black',
+    backgroundColor:'orange',
   },
 
   containerNameStatus:{
