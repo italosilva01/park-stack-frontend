@@ -22,71 +22,70 @@ export default function RegisterAttraction() {
 
   return (
 
-    <Formik
-      initialValues={{name:'',status:false,description:'',duration:''}}
-      onSubmit={e =>createAttraction(e)}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values,setFieldValue })=>(
-        <View style={style.container}>
-        <View style={style.containerNameStatus}>
-        <TextInput placeholder="Nome da atração" onChangeText={handleChange('name')} onBlur={handleBlur('name')} value={values.name} />
-        <View style={style.status}>
-        <Text>atração {`${isEnabled?"Ativa":"Inativa"}`}</Text>
-        <Switch
-          trackColor={{ false: "red", true: "green" }}
-          thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={values.status}
-          accessibilityLabel="Status"
-          onChange={()=>setFieldValue("status",!values.status)}
-          
-        />
-        </View>
-        
-        </View>
-          <View style={style.infoSecundary}>
-          <TextInput placeholder="descrição" multiline={true} onChangeText={handleChange('description')} onBlur={handleBlur('description')} value={values.description}/>
-          <TextInput placeholder="duração" onChangeText={handleChange('duration')} onBlur={handleBlur('duration')} value={values.duration} />
-      
-          </View>
-  
-  
-          <Button
-           title="Cadastrar"
-           onPress={handleSubmit}
-          />
-        
-        </View> 
+      <Formik
+          initialValues={{name:'',status:false,description:'',duration:''}}
+          onSubmit={e =>createAttraction(e)}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values,setFieldValue })=>(
+            <View style={style.container}>
+              <View style={style.containerName}>
+                <TextInput style={style.attractionName} placeholder="Nome da atração" onChangeText={handleChange('name')} onBlur={handleBlur('name')} value={values.name} />
+              </View>
+              <View style={style.infoSecundary}>
+                <View style={style.description}>
+                  <TextInput placeholder="Descrição" multiline={true} onChangeText={handleChange('description')} onBlur={handleBlur('description')} value={values.description}/>
+                </View>
+                  <TextInput placeholder="Duração" onChangeText={handleChange('duration')} onBlur={handleBlur('duration')} value={values.duration} />
+              </View>
 
-      )}
-     </Formik>
+              <View style={style.status}>
+                <Text>atração {`${isEnabled?"Ativa":"Inativa"}`}</Text>
+                <Switch
+                    trackColor={{ false: "red", true: "green" }}
+                    thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={values.status}
+                    accessibilityLabel="Status"
+                    onChange={()=>setFieldValue("status",!values.status)}
+
+                />
+              </View>
+              <Button
+                  title="Cadastrar"
+                  onPress={handleSubmit}
+              />
+
+            </View>
+
+        )}
+      </Formik>
   );
 }
 
 const style = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    border:'1px solid black',
-    backgroundColor:'orange',
+    width: '90%',
+    height: '80%',
   },
-
-  containerNameStatus:{
-    flexDirection:"row",
-    justifyContent:'space-between',
-    alignItems:'center',
+  attractionName:{
+    fontSize: 25,
+  },
+  containerName:{
+    height:'15%',
+    justifyContent:'center',
+  },
+  description:{
+    height:'70%',
   },
   status:{
     alignItems:'center',
-    //flexDirection:"row"
+    marginBottom:20
 
   },
   infoSecundary:{
-
-    flexDirection:"row",
-    justifyContent:"space-between",
-    
+    width:'90%',
+    height:'40%',
   }
 });
