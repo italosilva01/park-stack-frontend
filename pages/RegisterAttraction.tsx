@@ -78,6 +78,7 @@ const style = StyleSheet.create({
   },
   description:{
     height:'70%',
+    marginBottom:'5%'
   },
   status:{
     alignItems:'center',
