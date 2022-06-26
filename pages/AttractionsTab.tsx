@@ -12,7 +12,7 @@ function AttractionsList() {
   );
 }
 
-export default function AttractionsTab({ navigation }) {
+export default function AttractionsTab({ navigation }:any) {
   return (
     <AttractionStack.Navigator initialRouteName="AttractionsList">
       <AttractionStack.Screen 
