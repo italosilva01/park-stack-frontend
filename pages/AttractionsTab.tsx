@@ -1,18 +1,38 @@
 import React from 'react';
-import { Text, View, Button } from 'react-native';
+import { Text, View, Button, FlatList, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import axios from "axios";
+import { baseUrl } from "../constants";
 
 const AttractionStack = createNativeStackNavigator();
 
 function AttractionsList() {
+  const [refreshList, setRefreshList] = React.useState(false);
+  const [list, setList] = React.useState([]);
+
+  React.useEffect(() => {
+    (async () => {
+      const response = await axios.get(`${baseUrl}atracao`);
+      setList(response.data.body);
+    })();
+  }, [refreshList]);
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Atrações</Text>
+    <View style={style.container}>
+      <FlatList
+        data={list}
+        renderItem={ ({item}) => 
+          <View style={style.containerAttraction}>
+            <Text style={style.titleAttraction}>{item.name.toUpperCase()}</Text>
+          </View>
+        }
+      />
+      <Button onPress={ () => setRefreshList(!refreshList) } title='Atualizar lista'/>
     </View>
   );
 }
 
-export default function AttractionsTab({ navigation }) {
+export default function AttractionsTab({ navigation }:any) {
   return (
     <AttractionStack.Navigator initialRouteName="AttractionsList">
       <AttractionStack.Screen 
@@ -33,3 +53,20 @@ export default function AttractionsTab({ navigation }) {
     </AttractionStack.Navigator>
   )
 }
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  containerAttraction: {
+    backgroundColor: 'white',
+    height: 50,
+    marginTop: 5,
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }, 
+  titleAttraction: {
+    fontWeight: 'bold',
+  }
+});
