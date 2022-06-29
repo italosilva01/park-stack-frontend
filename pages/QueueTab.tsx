@@ -33,6 +33,11 @@ function inQueue(setChecked:Function) {
       return 'Irá valer a pena!';
     }
   };
+
+  async function checkout() {
+    console.log("Check-out");
+    // setChecked(false);
+  }
   
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
@@ -49,7 +54,7 @@ function inQueue(setChecked:Function) {
         O tempo estimado de espera é de {timeWaiting} minutos
       </Text>
 
-      <Button title='Check-out' color={ 'red' } onPress={ () => { setChecked(false); } }/>
+      <Button title='Check-out' color={ 'red' } onPress={checkout}/>
       
       <Text style={{ paddingTop: 10 }}>Obrigado por esperar.</Text>
       <Text>{message()}</Text>
