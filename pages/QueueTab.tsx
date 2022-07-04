@@ -1,8 +1,17 @@
 import React from 'react';
 import { Text, View, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import axios from "axios";
+import { baseUrl } from "../constants";
 
 const QueueStack = createNativeStackNavigator();
+
+async function findQueueInfo(setQueueInfo:Function, setChecked:Function) {
+  // TODO usar id do usuário logado
+  const id_user = 1;
+  const response = await axios.get(`${baseUrl}fila/usuario/${id_user}`);
+  setQueueInfo(response.data.body);
+}
 
 function notInQueue(route:any, navigation:any, setChecked:Function) {
   if(route.params && route.params.checked) {
@@ -20,12 +29,9 @@ function notInQueue(route:any, navigation:any, setChecked:Function) {
   );
 }
 
-function inQueue(setChecked:Function) {
-  // queueInfo de teste
-  const queueInfo = { position: 15, attraction: { name: "Roda-gigante", duration: 7, qtdUsers: 15 } };
-  
-  const groupsForward = Math.floor((queueInfo.position-1)/queueInfo.attraction.qtdUsers);
-  const timeWaiting = (groupsForward+1)*queueInfo.attraction.duration;
+function inQueue(setChecked:Function, queueInfo:any, setQueueInfo:Function) {
+  const groupsForward = Math.floor((queueInfo.position-1)/queueInfo.Attraction.num_users);
+  const timeWaiting = (groupsForward+1)*queueInfo.Attraction.duration;
   const message = () => {
     if (groupsForward == 0) {
       return 'Você entrará na próxima rodada!';
@@ -40,37 +46,45 @@ function inQueue(setChecked:Function) {
   }
   
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
-      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-        {queueInfo.attraction.name.toUpperCase()}
-      </Text>
-      <Text style={{ fontStyle: 'italic', paddingBottom: 50, color: 'grey' }}>
-        permite {queueInfo.attraction.qtdUsers} pessoas por rodada
-      </Text>
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+          {queueInfo.Attraction.name.toUpperCase()}
+        </Text>
+        <Text style={{ fontStyle: 'italic', paddingBottom: 50, color: 'grey' }}>
+          permite {queueInfo.Attraction.num_users} pessoas por rodada
+        </Text>
 
-      <Text style={{ fontSize: 100, fontWeight: 'bold', color: 'blue' }}>{queueInfo.position}º</Text>
-      <Text style={{ paddingBottom: 5, color: 'blue' }}>POSIÇÃO NA FILA</Text>
-      <Text style={{ paddingBottom: 70 }}>
-        O tempo estimado de espera é de {timeWaiting} minutos
-      </Text>
+        <Text style={{ fontSize: 100, fontWeight: 'bold', color: 'blue' }}>{queueInfo.position}º</Text>
+        <Text style={{ paddingBottom: 5, color: 'blue' }}>POSIÇÃO NA FILA</Text>
+        <Text style={{ paddingBottom: 70 }}>
+          O tempo estimado de espera é de {timeWaiting} minutos
+        </Text>
 
-      <Button title='Check-out' color={ 'red' } onPress={checkout}/>
-      
-      <Text style={{ paddingTop: 10 }}>Obrigado por esperar.</Text>
-      <Text>{message()}</Text>
-      {groupsForward==0 && <Text style={{color: 'red', textAlign: 'center'}}>
-        Não se esqueça de realizar o check-out ao sair da fila.</Text>}
+        <Button title='Check-out' color={ 'red' } onPress={checkout}/>
+        
+        <Text style={{ paddingTop: 10 }}>Obrigado por esperar.</Text>
+        <Text>{message()}</Text>
+        {groupsForward==0 && <Text style={{color: 'red', textAlign: 'center'}}>
+          Não se esqueça de realizar o check-out ao sair da fila.</Text>}
+      </View>
+      <Button title='Atualizar fila' onPress={ async () => findQueueInfo(setQueueInfo, setChecked) } />
     </View>
   );
 }
 
 function QueueDetail({ route, navigation }:any) {
   const [checked, setChecked] = React.useState(false);
+  const [queueInfo, setQueueInfo] = React.useState({});
 
-  if(!checked) {
+  React.useEffect(() => {
+    findQueueInfo(setQueueInfo, setChecked);
+  }, [checked]);
+
+  if(Object.keys(queueInfo).length === 0) {
     return notInQueue(route, navigation, setChecked);
   } else {
-    return inQueue(setChecked);
+    return inQueue(setChecked, queueInfo, setQueueInfo);
   }
 }
 
