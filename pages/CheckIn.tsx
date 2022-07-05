@@ -31,7 +31,7 @@ export default function CheckIn({ navigation }:any) {
         }
       } catch (err) {
         Alert.alert("Erro", "Houve um erro inesperado");
-        console.error(err);
+        // console.error(err);
       }
       navigation.navigate('QueueDetail', { checked });
     }

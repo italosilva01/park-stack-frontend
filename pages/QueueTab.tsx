@@ -9,8 +9,13 @@ const QueueStack = createNativeStackNavigator();
 async function findQueueInfo(setQueueInfo:Function, setChecked:Function) {
   // TODO usar id do usuário logado
   const id_user = 1;
-  const response = await axios.get(`${baseUrl}fila/usuario/${id_user}`);
-  setQueueInfo(response.data.body);
+  try {
+    const response = await axios.get(`${baseUrl}atracao/usuario/${id_user}`);
+    setQueueInfo(response.data.body);
+  } catch(err) {
+    // console.error(err);
+    setQueueInfo({});
+  }
 }
 
 function notInQueue(route:any, navigation:any, setChecked:Function) {
@@ -30,8 +35,8 @@ function notInQueue(route:any, navigation:any, setChecked:Function) {
 }
 
 function inQueue(setChecked:Function, queueInfo:any, setQueueInfo:Function) {
-  const groupsForward = Math.floor((queueInfo.position-1)/queueInfo.Attraction.num_users);
-  const timeWaiting = (groupsForward+1)*queueInfo.Attraction.duration;
+  const groupsForward = Math.floor((queueInfo.position-1)/queueInfo.id_attraction.num_users);
+  const timeWaiting = (groupsForward+1)*queueInfo.id_attraction.duration;
   const message = () => {
     if (groupsForward == 0) {
       return 'Você entrará na próxima rodada!';
@@ -49,10 +54,10 @@ function inQueue(setChecked:Function, queueInfo:any, setQueueInfo:Function) {
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-          {queueInfo.Attraction.name.toUpperCase()}
+          {queueInfo.id_attraction.name.toUpperCase()}
         </Text>
         <Text style={{ fontStyle: 'italic', paddingBottom: 50, color: 'grey' }}>
-          permite {queueInfo.Attraction.num_users} pessoas por rodada
+          permite {queueInfo.id_attraction.num_users} pessoas por rodada
         </Text>
 
         <Text style={{ fontSize: 100, fontWeight: 'bold', color: 'blue' }}>{queueInfo.position}º</Text>
