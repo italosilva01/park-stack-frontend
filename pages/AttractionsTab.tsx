@@ -1,12 +1,13 @@
 import React from 'react';
-import { Text, View, Button, FlatList, StyleSheet } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Text, View, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { createNativeStackNavigator,NativeStackScreenProps } from '@react-navigation/native-stack';
+
 import axios from "axios";
 import { baseUrl } from "../constants";
 
 const AttractionStack = createNativeStackNavigator();
 
-function AttractionsList() {
+function AttractionsList({ navigation }:any) {
   const [refreshList, setRefreshList] = React.useState(false);
   const [list, setList] = React.useState([]);
 
@@ -20,11 +21,11 @@ function AttractionsList() {
   return (
     <View style={style.container}>
       <FlatList
-        data={list}
+        data={list}      
         renderItem={ ({item}) => 
-          <View style={style.containerAttraction}>
-            <Text style={style.titleAttraction}>{item.name.toUpperCase()}</Text>
-          </View>
+          <TouchableOpacity style={style.containerAttraction} onPress={()=>{navigation.navigate('DetailsAttraction',{AttractionId:item.id})}}>
+            <Text style={style.titleAttraction}>{item.name.toUpperCase()} </Text>
+          </TouchableOpacity>
         }
       />
       <Button onPress={ () => setRefreshList(!refreshList) } title='Atualizar lista'/>
