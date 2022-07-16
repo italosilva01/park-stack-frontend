@@ -14,8 +14,8 @@ export default function DetailsAttraction({route}:any){
     },[currentAttractionData])
 
     const geCurrenttAttraction = async() =>{
-        console.log(route)
-        const response = await axios.get(`${baseUrl}atracao/${Number(route.params.AttractionId)+1}`);
+        console.log(route.params.AttractionId)
+        const response = await axios.get(`${baseUrl}atracao/${route.params.AttractionId}`);
         setCurrenteAttractionData(response.data.body)
     }
     return(
