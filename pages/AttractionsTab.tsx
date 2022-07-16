@@ -23,7 +23,7 @@ function AttractionsList({ navigation }:any) {
       <FlatList
         data={list}      
         renderItem={ ({item}) => 
-          <TouchableOpacity style={style.containerAttraction} onPress={()=>{navigation.navigate('DetailsAttraction',{AttractionId:item.id})}}>
+          <TouchableOpacity style={style.containerAttraction} onPress={()=>{  navigation.navigate('DetailsAttraction',{AttractionId:item.id})}}>
             <Text style={style.titleAttraction}>{item.name.toUpperCase()} </Text>
           </TouchableOpacity>
         }
