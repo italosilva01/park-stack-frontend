@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Button } from 'react-native';
+import { Text, View, Button, Alert } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import axios from "axios";
 import { baseUrl } from "../constants";
@@ -19,7 +19,7 @@ async function findQueueInfo(setQueueInfo:Function, setChecked:Function) {
 }
 
 function notInQueue(route:any, navigation:any, setChecked:Function) {
-  if(route.params && route.params.checked) {
+  if(route.params && route.params.checked != undefined) {
     setChecked(route.params.checked);
     route.params.checked = undefined;
   }
@@ -46,8 +46,20 @@ function inQueue(setChecked:Function, queueInfo:any, setQueueInfo:Function) {
   };
 
   async function checkout() {
-    console.log("Check-out");
-    // setChecked(false);
+    // TODO usar id do usuário logado
+    const body = { idUser: 1 };
+    try {
+      const response = await axios.post(`${baseUrl}checkout`,{...body});
+      if(response.data.status == 200) {
+        setChecked(false);
+        Alert.alert("Sucesso", response.data.message);
+      } else {
+        Alert.alert("Erro", response.data.message);
+      }
+    } catch (err) {
+      Alert.alert("Erro", "Houve um erro inesperado");
+      // console.error(err);
+    }
   }
   
   return (
@@ -73,7 +85,7 @@ function inQueue(setChecked:Function, queueInfo:any, setQueueInfo:Function) {
         {groupsForward==0 && <Text style={{color: 'red', textAlign: 'center'}}>
           Não se esqueça de realizar o check-out ao sair da fila.</Text>}
       </View>
-      <Button title='Atualizar fila' onPress={ async () => findQueueInfo(setQueueInfo, setChecked) } />
+      <Button title='Atualizar fila' onPress={ async () => await findQueueInfo(setQueueInfo, setChecked) } />
     </View>
   );
 }
