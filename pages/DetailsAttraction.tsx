@@ -18,6 +18,11 @@ export default function DetailsAttraction({route}:any){
         const response = await axios.get(`${baseUrl}atracao/${route.params.AttractionId}`);
         setCurrenteAttractionData(response.data.body)
     }
+
+    const getTempoEspera = () => {
+        return (Math.floor((currentAttractionData.queueSize+1)/currentAttractionData.num_users)*currentAttractionData.duration);
+    }
+
     return(
         <View style={style.container} >
             <View>
@@ -32,9 +37,13 @@ export default function DetailsAttraction({route}:any){
 
             <View style={style.container}>
             
-                    <Text> Duração: {currentAttractionData.duration}</Text>
+                    <Text> Duração: {currentAttractionData.duration} min.</Text>
                 
-                    <Text> vagas: {currentAttractionData.num_users}</Text>
+                    <Text> Vagas por rodada: {currentAttractionData.num_users}</Text>
+
+                    <Text> Pessoas na fila: {currentAttractionData.queueSize}</Text>
+
+                    <Text> Tempo estimado de espera: {getTempoEspera()} min.</Text>
             </View>
         </View>
        
