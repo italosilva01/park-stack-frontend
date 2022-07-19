@@ -20,7 +20,9 @@ export default function DetailsAttraction({route}:any){
     }
 
     const getTempoEspera = () => {
-        return (Math.floor((currentAttractionData.queueSize+1)/currentAttractionData.num_users)*currentAttractionData.duration);
+        let timeWaitingMin = Math.floor((currentAttractionData.queueSize)/currentAttractionData.num_users)*currentAttractionData.duration;
+        let timeWaitingMax = timeWaitingMin + parseInt(currentAttractionData.duration);
+        return `${timeWaitingMin}~${timeWaitingMax}`;
     }
 
     return(
