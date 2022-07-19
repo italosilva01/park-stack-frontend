@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from '../navigation/Tabs';
 import RegisterAttraction from "../pages/RegisterAttraction";
 import CheckIn from '../pages/CheckIn';
+import DetailsAttraction from '../pages/DetailsAttraction';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,11 @@ export default function MainContainer() {
           name="QueueCheckIn"
           component={CheckIn}
           options={{ title: 'Check-in' }}  
+        />
+        <Stack.Screen 
+          name='DetailsAttraction'
+          component={DetailsAttraction}
+          options={{ title: 'Detalhes' }} 
         />
       </Stack.Navigator>
     </NavigationContainer>
